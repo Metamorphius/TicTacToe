@@ -41,6 +41,73 @@ class UI(QMainWindow):
         # Show the app
         self.show()
 
+    def checkWin(self):
+        # Row
+        if self.button1.text() != '' and self.button1.text() == self.button4.text() \
+                and self.button1.text() == self.button7.text():
+            self.win(self.button1, self.button4, self.button7)
+
+        if self.button2.text() != '' and self.button2.text() == self.button5.text() \
+                and self.button2.text() == self.button8.text():
+            self.win(self.button2, self.button5, self.button8)
+
+        if self.button3.text() != '' and self.button3.text() == self.button6.text() \
+                and self.button3.text() == self.button9.text():
+            self.win(self.button3, self.button6, self.button9)
+
+        # Column
+        if self.button1.text() != '' and self.button1.text() == self.button2.text() \
+                and self.button1.text() == self.button3.text():
+            self.win(self.button1, self.button2, self.button3)
+
+        if self.button4.text() != '' and self.button4.text() == self.button5.text() \
+                and self.button4.text() == self.button6.text():
+            self.win(self.button4, self.button5, self.button6)
+
+        if self.button7.text() != '' and self.button7.text() == self.button8.text() \
+                and self.button7.text() == self.button9.text():
+            self.win(self.button7, self.button8, self.button9)
+
+        # Diagonal
+        if self.button1.text() != '' and self.button1.text() == self.button5.text() \
+                and self.button1.text() == self.button9.text():
+            self.win(self.button1, self.button5, self.button9)
+
+        if self.button3.text() != '' and self.button3.text() == self.button5.text() \
+                and self.button3.text() == self.button7.text():
+            self.win(self.button3, self.button5, self.button7)
+
+    def win(self, button1, button2, button3):
+        # Change the win buttons color to red
+        button1.setStyleSheet('QPushButton {color: red;}')
+        button2.setStyleSheet('QPushButton {color: red;}')
+        button3.setStyleSheet('QPushButton {color: red;}')
+
+        # Output winner label
+        self.label.setText(f'{button1.text()} wins!')
+
+        # Disable board
+        self.disable()
+
+    # Disable board
+    def disable(self):
+        # Create a list of all grid buttons
+        button_list = [
+            self.button1,
+            self.button2,
+            self.button3,
+            self.button4,
+            self.button5,
+            self.button6,
+            self.button7,
+            self.button8,
+            self.button9,
+        ]
+
+        # Disable the grid buttons
+        for b in button_list:
+            b.setEnabled(False)
+
     # Click handler
     def clicker(self, button):
         if self.turn:
@@ -53,6 +120,7 @@ class UI(QMainWindow):
         button.setText(mark)
         button.setEnabled(False)
         self.turn = not self.turn
+        self.checkWin()
 
     # Game reset
     def reset(self):
@@ -76,6 +144,8 @@ class UI(QMainWindow):
         for b in button_list:
             b.setText('')
             b.setEnabled(True)
+            # Reset the buttons color
+            b.setStyleSheet('QPushButton {color: #797979;}')
 
         # Reset the labels
         self.label.setText('X')
